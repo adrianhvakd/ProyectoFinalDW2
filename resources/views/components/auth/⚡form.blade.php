@@ -30,7 +30,7 @@ new class extends Component {
         if (Auth::attempt($data)) {
             session()->regenerate();
             flash()->use('theme.aurora')->option('timeout', 3000)->success('Inicio de sesión exitoso');
-            return redirect()->route('home');
+            return redirect()->route('dashboard');
         }
 
         $this->addError('email', 'Credenciales inválidas.');
@@ -120,7 +120,7 @@ new class extends Component {
                     </div>
 
                     <div class="form-control mt-4">
-                        <button type="submit" class="btn btn-accent w-full">Iniciar Sesión</button>
+                        <button type="submit" class="btn btn-primary w-full">Iniciar Sesión</button>
                     </div>
                 </form>
             @else
@@ -157,7 +157,7 @@ new class extends Component {
                         </div>
 
                         <div class="form-control mt-4">
-                            <button type="submit" class="btn btn-accent w-full">Registrarse</button>
+                            <button type="submit" class="btn btn-primary w-full">Registrarse</button>
                         </div>
                     </form>
                 @else
@@ -172,7 +172,7 @@ new class extends Component {
                         </div>
 
                         <div class="form-control mt-4">
-                            <button type="submit" class="btn btn-accent w-full">Confirmar Código</button>
+                            <button type="submit" class="btn btn-primary w-full">Confirmar Código</button>
                         </div>
                     </form>
                 @endif
@@ -181,10 +181,10 @@ new class extends Component {
             <div class="mt-3 text-center text-sm">
                 @if ($type == 'login')
                     ¿No tienes cuenta?
-                    <a href="{{ route('register') }}" class="link link-accent">Regístrate</a>
+                    <a href="{{ route('register') }}" class="link link-primary">Regístrate</a>
                 @else
                     ¿Ya tienes cuenta?
-                    <a href="{{ route('login') }}" class="link link-accent">Iniciar Sesión</a>
+                    <a href="{{ route('login') }}" class="link link-primary">Iniciar Sesión</a>
                 @endif
             </div>
 
