@@ -27,4 +27,9 @@ class Compra extends Model
     {
         return $this->belongsTo(Document::class);
     }
+
+    public function pago()
+    {
+        return $this->hasOne(Pago::class);
+    }
 }

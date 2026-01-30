@@ -11,7 +11,7 @@ class Catalogo extends Controller
      */
     public function index()
     {
-        return view('private.catalogo');
+        return view('private.user.catalogo');
     }
 
     /**

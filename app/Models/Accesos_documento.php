@@ -25,11 +25,11 @@ class Accesos_documento extends Model
 
     public function documento()
     {
-        return $this->belongsTo(Document::class);
+        return $this->belongsTo(Document::class, 'documento_id');
     }
 
     public function compra()
     {
-        return $this->belongsTo(Compra::class);
+        return $this->belongsTo(Compra::class, 'compra_id');
     }
 }

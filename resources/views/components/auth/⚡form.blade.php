@@ -28,6 +28,11 @@ new class extends Component {
         ]);
 
         if (Auth::attempt($data)) {
+            if (Auth::user()->active == false) {
+                Auth::logout();
+                flash()->use('theme.aurora')->option('timeout', 3000)->error('Su cuenta ha sido dada de baja. Por favor, contacte al administrador.');
+                return redirect()->route('login');
+            }
             session()->regenerate();
             flash()->use('theme.aurora')->option('timeout', 3000)->success('Inicio de sesión exitoso');
             return redirect()->route('dashboard');

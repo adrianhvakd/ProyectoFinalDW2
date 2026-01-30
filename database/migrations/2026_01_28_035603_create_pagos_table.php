@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreign('compra_id')->references('id')->on('compras')->onDelete('cascade');
             $table->string('comprobante');
             $table->enum('estado', ['pendiente', 'aprobado', 'rechazado'])->default('pendiente');
-            $table->unsignedBigInteger('verificado_por');
+            $table->unsignedBigInteger('verificado_por')->default(null);
             $table->foreign('verificado_por')->references('id')->on('users')->onDelete('cascade');
             $table->timestamp('fecha_verificacion')->nullable();
             $table->softDeletes();

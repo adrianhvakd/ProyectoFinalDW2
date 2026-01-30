@@ -17,6 +17,21 @@ new class extends Component {
 
 
     <div class="flex-1 flex justify-end space-x-2">
+
+        <label class="swap swap-rotate btn btn-ghost btn-circle">
+            <!-- checkbox -->
+            <input type="checkbox" id="theme-toggle" />
+
+            <!-- sun icon -->
+            <span class="material-icons-outlined swap-off text-xl">
+                light_mode
+            </span>
+
+            <!-- moon icon -->
+            <span class="material-icons-outlined swap-on text-xl">
+                dark_mode
+            </span>
+        </label>
         @if (!auth()->check())
             <a href="{{ route('login') }}" class="btn hover:btn-neutral btn-sm btn-outline">Iniciar Sesión</a>
             <a href="#" class="btn btn-sm btn-primary">Registrarse</a>
@@ -28,4 +43,23 @@ new class extends Component {
             </form>
         @endif
     </div>
+
+    @script
+        <script>
+            const html = document.documentElement;
+            const toggle = document.getElementById('theme-toggle');
+
+            if (toggle) {
+                const savedTheme = localStorage.getItem('theme') || 'light';
+                html.setAttribute('data-theme', savedTheme);
+                toggle.checked = savedTheme === 'dark';
+
+                toggle.addEventListener('change', () => {
+                    const theme = toggle.checked ? 'dark' : 'light';
+                    html.setAttribute('data-theme', theme);
+                    localStorage.setItem('theme', theme);
+                });
+            }
+        </script>
+    @endscript
 </div>

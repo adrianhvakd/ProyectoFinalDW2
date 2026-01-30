@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('vistas_documentos', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('usuario_id');
+            $table->unsignedBigInteger('usuario_id')->default(null);
             $table->unsignedBigInteger('documento_id');
             $table->foreign('usuario_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('documento_id')->references('id')->on('documents')->onDelete('cascade');

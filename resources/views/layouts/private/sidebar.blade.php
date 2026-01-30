@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title')</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @livewireStyles()
 </head>
 
 <body class="bg-base-100">
@@ -15,18 +16,33 @@
         <!-- Drawer Content -->
         <div class="drawer-content flex flex-col min-h-screen">
             <!-- Navbar -->
-            <nav class="navbar bg-base-300 px-4 shadow-md gap-2">
+            <nav class="navbar bg-base-300 px-4 shadow-md gap-2 sticky top-0 z-50">
                 <!-- Menu button -->
                 <label for="my-drawer-4" aria-label="toggle sidebar" class="btn btn-square btn-ghost">
                     <span class="material-icons-outlined text-xl">menu</span>
                 </label>
 
                 <!-- Page Title -->
-                <div class="px-4 text-lg md:text-xl font-bold text-primary">
+                <div class="px-4 text-lg hidden lg:block font-bold text-primary ">
                     @yield('title')
                 </div>
 
                 <div class="flex-1"></div>
+
+                <label class="swap swap-rotate btn btn-ghost btn-circle">
+                    <!-- checkbox -->
+                    <input type="checkbox" id="theme-toggle" />
+
+                    <!-- sun icon -->
+                    <span class="material-icons-outlined swap-off text-xl">
+                        light_mode
+                    </span>
+
+                    <!-- moon icon -->
+                    <span class="material-icons-outlined swap-on text-xl">
+                        dark_mode
+                    </span>
+                </label>
 
                 <!-- Notificaciones Dropdown -->
                 <livewire:private.notifications-dropdown />
@@ -67,62 +83,176 @@
         </div>
 
         <!-- Drawer Sidebar -->
-        <div class="drawer-side is-drawer-close:overflow-visible">
+        <div class="drawer-side is-drawer-close:overflow-visible top-0 z-50">
             <label for="my-drawer-4" aria-label="close sidebar" class="drawer-overlay"></label>
-            <aside
-                class="flex min-h-full flex-col bg-base-200 transition-all duration-300
-                          is-drawer-close:w-16 is-drawer-open:w-64">
-                <ul class="menu w-full grow space-y-2 p-2">
-                    <li>
-                        <a href="{{ route('dashboard') }}"
-                            class="is-drawer-close:tooltip is-drawer-close:tooltip-right h-10 w-full rounded-lg hover:bg-primary/10 flex items-center px-2 space-x-2"
-                            data-tip="Inicio">
-                            <span class="material-icons-outlined text-lg">home</span>
-                            <span class="is-drawer-close:hidden font-medium">Inicio</span>
+            @if ($currentUser->role == 'user')
+                <aside
+                    class="flex min-h-full flex-col bg-base-200 transition-all duration-300
+               is-drawer-close:w-16 is-drawer-open:w-64">
+
+                    <!-- Logo arriba del menú -->
+                    <div
+                        class="flex flex-col items-center justify-center h-28 is-drawer-close:h-16 border-b border-base-content/20">
+                        <a href="{{ route('dashboard') }}">
+                            <img src="{{ asset('storage/images/logo.png') }}" alt="Logo"
+                                class="object-contain transition-all duration-300
+                       is-drawer-close:h-8 is-drawer-close:w-8
+                       h-20 w-20">
                         </a>
-                    </li>
+                        <p class="text-xs font-bold is-drawer-close:hidden">Norm<span
+                                class="font-bold text-primary">Flow</span></p>
+                    </div>
 
-                    <li>
-                        <a href="{{ route('catalogo') }}"
-                            class="is-drawer-close:tooltip is-drawer-close:tooltip-right h-10 w-full rounded-lg hover:bg-primary/10 flex items-center px-2 space-x-2"
-                            data-tip="Catálogo">
-                            <span class="material-icons-outlined text-lg">library_books</span>
-                            <span class="is-drawer-close:hidden font-medium">Catálogo</span>
+                    <!-- Menú -->
+                    <ul class="menu w-full grow space-y-2 px-2 pt-2">
+
+                        <li class="w-full">
+                            <a href="{{ route('dashboard') }}"
+                                class="is-drawer-close:tooltip is-drawer-close:tooltip-right h-10 w-full flex items-center gap-2 rounded-lg hover:bg-primary/10"
+                                data-tip="Dashboard">
+                                <span class="material-icons-outlined text-lg">home</span>
+                                <span class="is-drawer-close:hidden font-medium">Dashboard</span>
+                            </a>
+                        </li>
+
+                        <li class="w-full">
+                            <a href="{{ route('catalogo') }}"
+                                class="is-drawer-close:tooltip is-drawer-close:tooltip-right h-10 w-full flex items-center gap-2 rounded-lg hover:bg-primary/10"
+                                data-tip="Catálogo">
+                                <span class="material-icons-outlined text-lg">library_books</span>
+                                <span class="is-drawer-close:hidden font-medium">Catálogo</span>
+                            </a>
+                        </li>
+
+                        <li class="w-full">
+                            <a href="{{ route('mis-documentos') }}"
+                                class="is-drawer-close:tooltip is-drawer-close:tooltip-right h-10 w-full flex items-center gap-2 rounded-lg hover:bg-primary/10"
+                                data-tip="Mis Documentos">
+                                <span class="material-icons-outlined text-lg">description</span>
+                                <span class="is-drawer-close:hidden font-medium">Mis Documentos</span>
+                            </a>
+                        </li>
+
+                        <li class="w-full">
+                            <a href="{{ route('historial') }}"
+                                class="is-drawer-close:tooltip is-drawer-close:tooltip-right h-10 w-full flex items-center gap-2 rounded-lg hover:bg-primary/10"
+                                data-tip="Historial de pagos">
+                                <span class="material-icons-outlined text-lg">history</span>
+                                <span class="is-drawer-close:hidden font-medium">Historial de pagos</span>
+                            </a>
+                        </li>
+
+                        <li class="mt-auto">
+                            <form action="{{ route('logout') }}" method="POST" onclick="this.submit()"
+                                class="is-drawer-close:tooltip is-drawer-close:tooltip-right btn btn-error btn-outline btn-sm w-full h-10"
+                                data-tip="Cerrar Sesión">
+                                @csrf
+                                <span class="material-icons-outlined text-center items-center py-1">logout</span>
+                                <span class="is-drawer-close:hidden font-medium">Cerrar Sesión</span>
+                            </form>
+                        </li>
+                    </ul>
+                </aside>
+            @else
+                <aside
+                    class="flex min-h-full flex-col bg-base-200 transition-all duration-300
+               is-drawer-close:w-16 is-drawer-open:w-64">
+
+                    <!-- Logo arriba del menú -->
+                    <div
+                        class="flex flex-col items-center justify-center h-28 is-drawer-close:h-16 border-b border-base-content/20">
+                        <a href="{{ route('dashboard') }}">
+                            <img src="{{ asset('storage/images/logo.png') }}" alt="Logo"
+                                class="object-contain transition-all duration-300
+                       is-drawer-close:h-8 is-drawer-close:w-8
+                       h-20 w-20">
                         </a>
-                    </li>
+                        <p class="text-xs font-bold is-drawer-close:hidden">Norm<span
+                                class="font-bold text-primary">Flow</span></p>
+                    </div>
 
-                    <li>
-                        <button
-                            class="is-drawer-close:tooltip is-drawer-close:tooltip-right h-10 w-full rounded-lg hover:bg-primary/10 flex items-center px-2 space-x-2"
-                            data-tip="Mis Documentos">
-                            <span class="material-icons-outlined text-lg">folder</span>
-                            <span class="is-drawer-close:hidden font-medium">Mis Documentos</span>
-                        </button>
-                    </li>
+                    <!-- Menú -->
+                    <ul class="menu w-full grow space-y-2 px-2 pt-2">
 
-                    <li>
-                        <button
-                            class="is-drawer-close:tooltip is-drawer-close:tooltip-right h-10 w-full rounded-lg hover:bg-primary/10 flex items-center px-2 space-x-2"
-                            data-tip="Historial de pagos">
-                            <span class="material-icons-outlined text-lg">history</span>
-                            <span class="is-drawer-close:hidden font-medium">Historial de pagos</span>
-                        </button>
-                    </li>
+                        <li class="w-full">
+                            <a href="{{ route('admin-dashboard') }}"
+                                class="is-drawer-close:tooltip is-drawer-close:tooltip-right h-10 w-full flex items-center gap-2 rounded-lg hover:bg-primary/10"
+                                data-tip="Dashboard">
+                                <span class="material-icons-outlined text-lg">home</span>
+                                <span class="is-drawer-close:hidden font-medium">Dashboard</span>
+                            </a>
+                        </li>
 
-                    <li class="mt-auto">
+                        <li class="w-full">
+                            <a href="{{ route('admin-usuarios') }}"
+                                class="is-drawer-close:tooltip is-drawer-close:tooltip-right h-10 w-full flex items-center gap-2 rounded-lg hover:bg-primary/10"
+                                data-tip="Usuarios">
+                                <span class="material-icons-outlined text-lg">person</span>
+                                <span class="is-drawer-close:hidden font-medium">Usuarios</span>
+                            </a>
+                        </li>
 
-                        <form action="{{ route('logout') }}" method="POST" onclick="this.submit()"
-                            class="is-drawer-close:tooltip is-drawer-close:tooltip-right btn btn-error btn-outline btn-sm w-full justify-start h-10"
-                            data-tip="Cerrar Sesión">
-                            @csrf
-                            <span class="material-icons-outlined text-center items-center py-1">logout</span>
-                            <span class="is-drawer-close:hidden font-medium">Cerrar Sesión</span>
-                        </form>
-                    </li>
-                </ul>
-            </aside>
+                        <li class="w-full">
+                            <a href="{{ route('admin-pagos') }}"
+                                class="is-drawer-close:tooltip is-drawer-close:tooltip-right h-10 w-full flex items-center gap-2 rounded-lg hover:bg-primary/10"
+                                data-tip="Pagos">
+                                <span class="material-icons-outlined text-lg">attach_money</span>
+                                <span class="is-drawer-close:hidden font-medium">Pagos</span>
+                            </a>
+                        </li>
+
+                        <li class="w-full">
+                            <a href="{{ route('admin-accesos') }}"
+                                class="is-drawer-close:tooltip is-drawer-close:tooltip-right h-10 w-full flex items-center gap-2 rounded-lg hover:bg-primary/10"
+                                data-tip="Accesos">
+                                <span class="material-icons-outlined text-lg">lock</span>
+                                <span class="is-drawer-close:hidden font-medium">Accesos</span>
+                            </a>
+                        </li>
+
+                        <li class="w-full">
+                            <a href="{{ route('admin-documentos') }}"
+                                class="is-drawer-close:tooltip is-drawer-close:tooltip-right h-10 w-full flex items-center gap-2 rounded-lg hover:bg-primary/10"
+                                data-tip="Documentos">
+                                <span class="material-icons-outlined text-lg">description</span>
+                                <span class="is-drawer-close:hidden font-medium">Documentos</span>
+                            </a>
+                        </li>
+
+                        <li class="mt-auto">
+                            <form action="{{ route('logout') }}" method="POST" onclick="this.submit()"
+                                class="is-drawer-close:tooltip is-drawer-close:tooltip-right btn btn-error btn-outline btn-sm w-full h-10"
+                                data-tip="Cerrar Sesión">
+                                @csrf
+                                <span class="material-icons-outlined text-center items-center py-1">logout</span>
+                                <span class="is-drawer-close:hidden font-medium">Cerrar Sesión</span>
+                            </form>
+                        </li>
+                    </ul>
+                </aside>
+            @endif
         </div>
+
+
     </div>
+    @livewireScripts()
+    <script>
+        const html = document.documentElement;
+        const toggle = document.getElementById('theme-toggle');
+
+        if (toggle && html.getAttribute('data-theme') != localStorage.getItem('theme')) {
+            const savedTheme = localStorage.getItem('theme');
+            html.setAttribute('data-theme', savedTheme);
+            toggle.checked = savedTheme === 'dark';
+
+            toggle.addEventListener('change', () => {
+                const theme = toggle.checked ? 'dark' : 'light';
+                html.setAttribute('data-theme', theme);
+                localStorage.setItem('theme', theme);
+            });
+        }
+    </script>
+
 </body>
 
 </html>

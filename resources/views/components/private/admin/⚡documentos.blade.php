@@ -15,7 +15,6 @@ new class extends Component {
             return Document::with('category')
                 ->withCount('vistas_documentos')
                 ->withAvg('calificaciones_documentos', 'calificacion')
-                ->where('active', true)
                 ->where('name', 'like', '%' . $this->search . '%')
                 ->where('category_id', $this->category)
                 ->paginate(8);
@@ -24,14 +23,13 @@ new class extends Component {
             return Document::with('category')
                 ->withCount('vistas_documentos')
                 ->withAvg('calificaciones_documentos', 'calificacion')
-                ->where('active', true)
                 ->where('name', 'like', '%' . $this->search . '%')
                 ->paginate(8);
         }
         if ($this->category) {
-            return Document::with('category')->withCount('vistas_documentos')->withAvg('calificaciones_documentos', 'calificacion')->where('active', true)->where('category_id', $this->category)->paginate(8);
+            return Document::with('category')->withCount('vistas_documentos')->withAvg('calificaciones_documentos', 'calificacion')->where('category_id', $this->category)->paginate(8);
         }
-        return Document::with('category')->withCount('vistas_documentos')->withAvg('calificaciones_documentos', 'calificacion')->where('active', true)->paginate(8);
+        return Document::with('category')->withCount('vistas_documentos')->withAvg('calificaciones_documentos', 'calificacion')->paginate(8);
     }
 
     #[Computed]
@@ -48,7 +46,7 @@ new class extends Component {
 };
 ?>
 
-<article class="bg-base-100 mt-2">
+<div class="bg-base-100 mt-2">
 
     <h3 class="text-3xl font-bold mb-5 px-6">Catálogo de Normas</h3>
 
@@ -131,4 +129,6 @@ new class extends Component {
 
         </div>
     </div>
-</article>
+
+    {{ $this->catalog()->links() }}
+</div>

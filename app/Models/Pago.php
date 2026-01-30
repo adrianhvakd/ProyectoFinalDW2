@@ -15,7 +15,14 @@ class Pago extends Model
         'usuario_id',
         'compra_id',
         'monto',
-        'fecha_pago',
+        'estado',
+        'fecha_verificacion',
+        'comprobante',
+        'verificado_por',
+    ];
+
+    protected $casts = [
+        'fecha_verificacion' => 'datetime',
     ];
 
     public function usuario()

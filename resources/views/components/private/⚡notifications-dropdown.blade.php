@@ -41,7 +41,7 @@ new class extends Component {
 
     <!-- Dropdown -->
     <div tabindex="0"
-        class="mt-3 shadow-lg dropdown-content bg-base-200 rounded-box w-80 max-h-[500px] overflow-y-auto overflow-x-hidden p-2">
+        class="mt-3 shadow-lg dropdown-content bg-base-200 rounded-box w-70 max-h-[500px] overflow-y-auto overflow-x-hidden p-2 lg:w-80">
 
         <!-- Título -->
         <div
