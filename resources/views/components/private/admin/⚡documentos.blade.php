@@ -273,7 +273,6 @@ new class extends Component {
                 <div class="card bg-base-200 shadow-xl hover:shadow-2xl transition-all rounded-xl">
                     <div class="card-body space-y-3">
 
-                        {{-- Header --}}
                         <div class="flex justify-between items-start">
                             <div>
                                 <h3 class="font-bold text-lg leading-tight">
@@ -291,12 +290,9 @@ new class extends Component {
                             @endif
                         </div>
 
-                        {{-- Precio --}}
                         <div class="text-2xl font-bold text-primary">
                             Bs {{ number_format($document->price, 2) }}
                         </div>
-
-                        {{-- Rating + stats --}}
                         <div class="flex items-center justify-between text-sm opacity-80">
                             <div class="flex items-center gap-1">
                                 <span class="material-icons-outlined text-yellow-500 text-base">star</span>
@@ -314,7 +310,6 @@ new class extends Component {
                             </div>
                         </div>
 
-                        {{-- Acciones --}}
                         <div class="flex gap-2 pt-2">
                             <button wire:click="verOpiniones({{ $document->id }})"
                                 class="btn btn-sm btn-primary flex-1">

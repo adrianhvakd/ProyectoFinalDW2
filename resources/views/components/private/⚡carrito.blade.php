@@ -70,7 +70,6 @@ new class extends Component {
             $filename = Str::uuid() . '.webp';
             $path = storage_path('app/private/comprobantes/' . $filename);
 
-            // Intervention Image v3 (API correcta)
             $manager = new ImageManager(new Driver());
 
             $image = $manager

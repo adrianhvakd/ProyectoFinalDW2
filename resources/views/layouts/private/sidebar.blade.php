@@ -14,16 +14,12 @@
     <div class="drawer lg:drawer-open">
         <input id="my-drawer-4" type="checkbox" class="drawer-toggle" />
 
-        <!-- Drawer Content -->
         <div class="drawer-content flex flex-col min-h-screen">
-            <!-- Navbar -->
             <nav class="navbar bg-base-300 px-4 shadow-md gap-2 sticky top-0 z-50">
-                <!-- Menu button -->
                 <label for="my-drawer-4" aria-label="toggle sidebar" class="btn btn-square btn-ghost">
                     <span class="material-icons-outlined text-xl">menu</span>
                 </label>
 
-                <!-- Page Title -->
                 <div class="px-4 text-lg hidden lg:block font-bold text-primary ">
                     @yield('title')
                 </div>
@@ -31,15 +27,12 @@
                 <div class="flex-1"></div>
 
                 <label class="swap swap-rotate btn btn-ghost btn-circle">
-                    <!-- checkbox -->
                     <input type="checkbox" id="theme-toggle" />
 
-                    <!-- sun icon -->
                     <span class="material-icons-outlined swap-off text-xl">
                         light_mode
                     </span>
 
-                    <!-- moon icon -->
                     <span class="material-icons-outlined swap-on text-xl">
                         dark_mode
                     </span>
@@ -48,10 +41,8 @@
                 @if (auth()->user()->role == 'user')
                     @livewire('private.carrito')
                 @endif
-                <!-- Notificaciones Dropdown -->
                 <livewire:private.notifications-dropdown />
 
-                <!-- User Dropdown -->
                 <div class="dropdown dropdown-end">
                     <label tabindex="0" class="btn btn-ghost btn-circle avatar hover:bg-base-200 transition">
                         <div class="w-10 rounded-full">
@@ -78,13 +69,11 @@
                 </div>
             </nav>
 
-            <!-- Page content -->
             <main class="p-4 flex-1 bg-base-100">
                 @yield('content')
             </main>
         </div>
 
-        <!-- Drawer Sidebar -->
         <div class="drawer-side is-drawer-close:overflow-visible top-0 z-50">
             <label for="my-drawer-4" aria-label="close sidebar" class="drawer-overlay"></label>
             @if ($currentUser->role == 'user')
@@ -92,7 +81,6 @@
                     class="flex min-h-full flex-col bg-base-200 transition-all duration-300
                is-drawer-close:w-16 is-drawer-open:w-64">
 
-                    <!-- Logo arriba del menú -->
                     <div
                         class="flex flex-col items-center justify-center h-28 is-drawer-close:h-16 border-b border-base-content/20">
                         <a href="{{ route('dashboard') }}" draggable="false">
@@ -104,7 +92,6 @@
                                 class="font-bold text-primary">Flow</span></p>
                     </div>
 
-                    <!-- Menú -->
                     <ul class="menu w-full grow space-y-2 px-2 pt-2">
 
                         <li class="w-full">
@@ -159,7 +146,6 @@
                     class="flex min-h-full flex-col bg-base-200 transition-all duration-300
                is-drawer-close:w-16 is-drawer-open:w-64">
 
-                    <!-- Logo arriba del menú -->
                     <div
                         class="flex flex-col items-center justify-center h-28 is-drawer-close:h-16 border-b border-base-content/20">
                         <a href="{{ route('admin-dashboard') }}" draggable="false">
@@ -173,7 +159,6 @@
                                 class="font-bold text-primary">Flow</span></p>
                     </div>
 
-                    <!-- Menú -->
                     <ul class="menu w-full grow space-y-2 px-2 pt-2">
 
                         <li class="w-full">

@@ -155,7 +155,7 @@ Route::get('/admin/reportes', function () {
 Route::get('/public/catalogo', function () {
     if (auth()->check()) {
         if (auth()->user()->role == 'admin') {
-            return redirect()->route('admin-catalogo');
+            return redirect()->route('admin-documentos');
         }
 
         return redirect()->route('catalogo');

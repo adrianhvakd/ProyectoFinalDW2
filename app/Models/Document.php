@@ -13,16 +13,14 @@ class Document extends BaseModel
         'description',
         'file_path',
         'active',
-        'category_id', // Agrega este si no lo tenías
+        'category_id',
     ];
 
-    // Asegura que Laravel use 'id' como route key
     public function getRouteKeyName()
     {
         return 'id';
     }
 
-    // Relaciones
     public function category()
     {
         return $this->belongsTo(Category::class, 'category_id');

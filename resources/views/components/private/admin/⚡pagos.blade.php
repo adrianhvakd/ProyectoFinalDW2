@@ -206,7 +206,9 @@ new class extends Component {
                                     @endif
                                 @endforeach
                             </td>
-                            <td>{{ User::find($pago->verificado_por)->email }}</td>
+                            @if ($pago->verificado_por)
+                                <td>{{ User::find($pago->verificado_por)->email }}</td>
+                            @endif
                             <td>{{ $pago->monto_total }}</td>
                             <td>{{ $pago->created_at->format('d/m/Y H:i') }}</td>
                             <td>

@@ -19,15 +19,12 @@ new class extends Component {
     <div class="flex-1 flex justify-end space-x-2">
 
         <label class="swap swap-rotate btn btn-ghost btn-circle">
-            <!-- checkbox -->
             <input type="checkbox" id="theme-toggle" />
 
-            <!-- sun icon -->
             <span class="material-icons-outlined swap-off text-xl">
                 light_mode
             </span>
 
-            <!-- moon icon -->
             <span class="material-icons-outlined swap-on text-xl">
                 dark_mode
             </span>

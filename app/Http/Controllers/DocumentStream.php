@@ -18,7 +18,6 @@ class DocumentStream extends Controller
             'query_params' => $request->query(),
         ]);
 
-        // Verificar firma
         if (! $request->hasValidSignature()) {
             \Log::error('STREAM: Firma inválida', [
                 'url' => $request->fullUrl(),
@@ -28,7 +27,6 @@ class DocumentStream extends Controller
             abort(403, 'Enlace expirado o inválido');
         }
 
-        // Verificar acceso
         $hasAccess = auth()->check() &&
             $document->usuariosConAcceso()
                 ->where('user_id', auth()->id())
@@ -103,7 +101,6 @@ class DocumentStream extends Controller
     {
         $user = auth()->user();
 
-        // Marca de agua diagonal
         $pdf->SetFont('helvetica', 'B', 40);
         $pdf->SetTextColor(220, 220, 220);
         $pdf->SetAlpha(0.15);
@@ -121,7 +118,6 @@ class DocumentStream extends Controller
 
         $pdf->SetAlpha(1);
 
-        // Footer
         $pdf->SetFont('helvetica', '', 7);
         $pdf->SetTextColor(120, 120, 120);
 

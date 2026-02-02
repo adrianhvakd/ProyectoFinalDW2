@@ -17,7 +17,6 @@ class DocumentViewer extends Controller
             'query_params' => $request->query(),
         ]);
 
-        // Verificar firma
         if (! $request->hasValidSignature()) {
             \Log::error('VIEWER: Firma inválida', [
                 'url' => $request->fullUrl(),
@@ -27,7 +26,6 @@ class DocumentViewer extends Controller
             abort(403, 'Enlace expirado o inválido');
         }
 
-        // Verificar acceso
         $hasAccess = auth()->check() &&
             $document->usuariosConAcceso()
                 ->where('user_id', auth()->id())
