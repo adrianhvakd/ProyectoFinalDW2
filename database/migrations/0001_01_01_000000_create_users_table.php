@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('password');
             $table->boolean('active')->default(true);
             $table->enum('role', ['user', 'admin'])->default('user');
-            $table->string('profile_picture')->nullable()->default('default.jpg');
+            $table->string('profile_picture')->nullable()->default('default.webp');
             $table->rememberToken();
             $table->softDeletes();
             $table->timestamps();

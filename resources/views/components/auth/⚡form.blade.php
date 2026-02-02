@@ -3,6 +3,7 @@
 use Livewire\Component;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use App\Jobs\SendRegisterCodeJob;
 use Illuminate\Support\Facades\Hash;
 
 new class extends Component {
@@ -35,7 +36,7 @@ new class extends Component {
             }
             session()->regenerate();
             flash()->use('theme.aurora')->option('timeout', 3000)->success('Inicio de sesión exitoso');
-            return redirect()->route('dashboard');
+            return redirect()->route(Auth::user()->role == 'admin' ? 'admin-dashboard' : 'dashboard');
         }
 
         $this->addError('email', 'Credenciales inválidas.');
@@ -52,17 +53,16 @@ new class extends Component {
 
         $this->generatedCode = random_int(10000, 99999);
 
-        $this->mostrarConfirmarCodigo = true;
-
-        flash()
-            ->use('theme.aurora')
-            ->option('timeout', 10000)
-            ->info("Código de confirmación: {$this->generatedCode}");
-
         session([
             'register_data' => $data,
             'register_code' => $this->generatedCode,
         ]);
+
+        SendRegisterCodeJob::dispatch($data['email'], $this->generatedCode);
+
+        $this->mostrarConfirmarCodigo = true;
+
+        flash()->use('theme.aurora')->option('timeout', 5000)->info('Se ha enviado un código de confirmación a tu correo.');
     }
 
     public function confirmarCodigo()
@@ -92,7 +92,7 @@ new class extends Component {
 
         flash()->use('theme.aurora')->option('timeout', 3000)->success('Registro exitoso');
 
-        return redirect()->route('home');
+        return redirect()->route('dashboard');
     }
 };
 
@@ -168,6 +168,9 @@ new class extends Component {
                 @else
                     <form wire:submit.prevent="confirmarCodigo" class="space-y-4">
                         <div class="form-control">
+                            <p class="text-sm mb-2">Se ha enviado un código de confirmación a tu correo electrónico
+                                <span class="font-bold text-primary">{{ $email }}</span>.
+                            </p>
                             <label class="label">Ingresa el código de confirmación</label>
                             <input type="text" wire:model.defer="code" class="input input-bordered w-full"
                                 maxlength="5">

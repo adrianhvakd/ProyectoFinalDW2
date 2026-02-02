@@ -53,11 +53,21 @@ class User extends Authenticatable
 
     public function notifications()
     {
-        return $this->hasMany(Notificaciones::class, 'usuario_id');
+        return $this->hasMany(Notificaciones::class, 'user_id');
     }
 
     public function compras()
     {
-        return $this->hasMany(Compra::class, 'usuario_id');
+        return $this->hasMany(Compra::class, 'user_id');
+    }
+
+    public function pagos()
+    {
+        return $this->hasMany(Pago::class, 'user_id');
+    }
+
+    public function accesos_documentos()
+    {
+        return $this->hasMany(Accesos_documento::class, 'user_id');
     }
 }

@@ -2,34 +2,37 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Compra extends Model
+class Compra extends BaseModel
 {
     use SoftDeletes;
 
     protected $table = 'compras';
 
     protected $fillable = [
-        'usuario_id',
+        'intencion_compra_id',
+        'user_id',
         'documento_id',
-        'precio',
-        'fecha_compra',
     ];
 
-    public function usuario()
+    public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function documento()
     {
-        return $this->belongsTo(Document::class);
+        return $this->belongsTo(Document::class, 'documento_id');
     }
 
-    public function pago()
+    public function intencion_compra()
     {
-        return $this->hasOne(Pago::class);
+        return $this->belongsTo(Intenciones_compra::class, 'intencion_compra_id');
+    }
+
+    public function accesoDocumento()
+    {
+        return $this->hasOne(AccesoDocumento::class, 'compra_id');
     }
 }

@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('version');
             $table->unsignedBigInteger('category_id');
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->unsignedBigInteger('agregado_por');
+            $table->foreign('agregado_por')->references('id')->on('users')->onDelete('cascade');
             $table->decimal('price', 10, 2);
             $table->text('description');
             $table->string('file_path');

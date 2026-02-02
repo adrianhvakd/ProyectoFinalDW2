@@ -3,6 +3,7 @@
 use Livewire\Component;
 use App\Models\Compra;
 use App\Models\Accesos_documento;
+use App\Models\Intenciones_Compra;
 use Illuminate\Support\Facades\Auth;
 
 new class extends Component {
@@ -14,10 +15,10 @@ new class extends Component {
     public function mount()
     {
         $user = Auth::user();
-        $this->totalCompras = Compra::where('usuario_id', $user->id)->count();
-        $this->accesosActivos = Accesos_Documento::where('usuario_id', $user->id)->where('estado', 'activo')->count();
-        $this->pagosPendientes = Compra::where('usuario_id', $user->id)->whereHas('pago', fn($q) => $q->where('estado', 'pendiente'))->count();
-        $this->ultimosDocumentos = Accesos_Documento::with('documento')->where('usuario_id', $user->id)->where('estado', 'activo')->latest()->take(5)->get();
+        $this->totalCompras = Compra::where('user_id', $user->id)->count();
+        $this->accesosActivos = Accesos_Documento::where('user_id', $user->id)->where('estado', 'activo')->count();
+        $this->pagosPendientes = Intenciones_Compra::where('user_id', $user->id)->whereHas('pago', fn($q) => $q->where('estado', 'pendiente'))->count();
+        $this->ultimosDocumentos = Accesos_Documento::with('documento')->where('user_id', $user->id)->where('estado', 'activo')->latest()->take(5)->get();
     }
 };
 ?>
@@ -47,7 +48,7 @@ new class extends Component {
         <div class="card-body w-full p-0">
             <h2 class="card-title">Mis últimos documentos</h2>
 
-            <ul class="divide-y rounded-xl border border-base-300 bg-base-200 gap-2 px-4">
+            <ul class="divide-y rounded-xl border border-base-300 bg-base-200 gap-2 px-4 min-h-10">
                 @forelse($ultimosDocumentos as $acceso)
                     <li class="py-3 flex justify-between items-center">
                         <div>

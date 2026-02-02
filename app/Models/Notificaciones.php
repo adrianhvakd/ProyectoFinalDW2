@@ -2,23 +2,23 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Notificaciones extends Model
+class Notificaciones extends BaseModel
 {
     use SoftDeletes;
 
     protected $table = 'notificaciones';
 
     protected $fillable = [
-        'usuario_id',
+        'user_id',
         'titulo',
         'mensaje',
         'leido_en',
+        'ruta',
     ];
 
-    public function usuario()
+    public function user()
     {
         return $this->belongsTo(User::class);
     }

@@ -84,7 +84,7 @@ new class extends Component {
                             @if ($usuario->active)
                                 <span class="badge badge-success badge-sm">Activo</span>
                             @else
-                                <span class="badge badge-error badge-sm">Dado de baja</span>
+                                <span class="badge badge-error badge-sm">Inactivo</span>
                             @endif
                         </td>
 

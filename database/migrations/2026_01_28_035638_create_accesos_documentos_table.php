@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('accesos_documentos', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('usuario_id');
-            $table->foreign('usuario_id')->references('id')->on('users')->onDelete('cascade');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('documento_id');
             $table->foreign('documento_id')->references('id')->on('documents')->onDelete('cascade');
             $table->unsignedBigInteger('compra_id');

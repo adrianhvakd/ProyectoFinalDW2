@@ -2,18 +2,14 @@
 
 use Livewire\Component;
 
-new class extends Component
-{
+new class extends Component {
     //
 };
 ?>
 
 <section class="hero min-h-[60vh] relative overflow-hidden">
-    <img 
-        src="{{ asset('storage/images/hero.png') }}" 
-        alt="Fondo"
-        class="absolute inset-0 w-full h-full object-cover z-0"
-    >
+    <img src="{{ asset('storage/images/hero.webp') }}" alt="Fondo"
+        class="absolute inset-0 w-full h-full object-cover z-0">
 
     <div class="absolute inset-0 bg-black/50 z-10"></div>
 

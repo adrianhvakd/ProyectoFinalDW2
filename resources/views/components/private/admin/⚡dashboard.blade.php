@@ -4,6 +4,7 @@ use Livewire\Component;
 use App\Models\User;
 use App\Models\Compra;
 use App\Models\Accesos_documento;
+use App\Models\Intenciones_compra;
 
 new class extends Component {
     public $usuariosActivos;
@@ -15,7 +16,7 @@ new class extends Component {
     {
         $this->usuariosActivos = User::where('active', true)->count();
         $this->documentosVendidos = Compra::count();
-        $this->pagosPendientes = Compra::whereHas('pago', fn($q) => $q->where('estado', 'pendiente'))->count();
+        $this->pagosPendientes = Intenciones_compra::whereHas('pago', fn($q) => $q->where('estado', 'pendiente'))->count();
         $this->accesosTotales = Accesos_documento::count();
     }
 };

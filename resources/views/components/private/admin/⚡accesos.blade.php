@@ -11,7 +11,7 @@ new class extends Component {
     #[Computed]
     public function accesos()
     {
-        return Accesos_documento::paginate(5);
+        return Accesos_documento::paginate(10);
     }
 
     public function confirmar($id, $estado)
@@ -70,7 +70,7 @@ new class extends Component {
                 @forelse ($this->accesos as $acceso)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $acceso->compra->usuario->name }}</td>
+                        <td>{{ $acceso->compra->user->name }}</td>
                         <td>{{ $acceso->compra->documento->name }}</td>
                         <td>{{ $acceso->compra->created_at->format('d/m/Y') }}</td>
                         <td>

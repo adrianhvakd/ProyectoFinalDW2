@@ -2,25 +2,24 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Calificaciones_documento extends Model
+class Calificaciones_documento extends BaseModel
 {
     use SoftDeletes;
 
     protected $table = 'calificaciones_documentos';
 
     protected $fillable = [
-        'usuario_id',
+        'user_id',
         'documento_id',
         'calificacion',
         'comentario',
     ];
 
-    public function usuario()
+    public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function documento()

@@ -21,7 +21,7 @@
     <link rel="icon" href="{{ asset('storage/images/logo.png') }}" type="image/x-icon">
 </head>
 
-<body class="min-h-screen flex flex-col bg-base-200">
+<body class="min-h-screen flex flex-col bg-base-100">
     <main class="flex-1 flex flex-col">
         @yield('content')
     </main>

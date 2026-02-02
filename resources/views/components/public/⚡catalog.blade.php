@@ -19,11 +19,11 @@ new class extends Component {
 <article class="py-20 bg-base-100">
     <h3 class="text-3xl font-bold text-center mb-10">Catálogo de Normas</h3>
 
-    <div class="max-w-6xl mx-auto px-6">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+    <div class="mx-auto px-6 max-w-6xl">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
 
             @forelse ($this->documents() as $document)
-                <div class="card bg-base-200 shadow-xl hover:shadow-2xl transition-all rounded-xl">
+                <div class="card bg-base-200 shadow-xl hover:shadow-2xl transition-all rounded-xl max-w-xs">
                     <div class="card-body">
 
                         <h3 class="card-title font-semibold flex items-center justify-between">
@@ -51,19 +51,10 @@ new class extends Component {
                             <span>Versión: {{ $document->version }}</span>
                         </p>
 
-                        <p class="text-sm text-base-content/80 line-clamp-3">
-                            {{ $document->description }}
-                        </p>
-
-                        <div class="flex items-center justify-between mt-4">
-                            <a href="#" class="btn btn-secondary btn-sm">
-                                Comprar
-                            </a>
-
-                            <a href="#" class="btn btn-primary btn-sm">
-                                Ver
-                            </a>
+                        <div class="text-2xl font-bold text-primary">
+                            Bs {{ number_format($document->price, 2) }}
                         </div>
+
                     </div>
                 </div>
             @empty
@@ -71,7 +62,9 @@ new class extends Component {
                     No hay documentos disponibles
                 </p>
             @endforelse
-
+        </div>
+        <div class="flex justify-end">
+            <a href="{{ route('public-catalogo') }}" class="btn btn-primary btn-sm mt-4">Ver todos</a>
         </div>
     </div>
 </article>

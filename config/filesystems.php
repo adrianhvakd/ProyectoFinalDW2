@@ -60,6 +60,12 @@ return [
             'report' => false,
         ],
 
+        'private_reports' => [
+            'driver' => 'local',
+            'root' => storage_path('app/private/reports'),
+            'visibility' => 'private',
+        ],
+
     ],
 
     /*

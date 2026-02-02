@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('calificaciones_documentos', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('usuario_id');
+            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('documento_id');
-            $table->foreign('usuario_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('documento_id')->references('id')->on('documents')->onDelete('cascade');
             $table->integer('calificacion');
             $table->text('comentario')->nullable();

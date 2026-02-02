@@ -11,20 +11,24 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('compras', function (Blueprint $table) {
+        Schema::create('intenciones_compra', function (Blueprint $table) {
             $table->id();
-
-            $table->unsignedBigInteger('intencion_compra_id');
-            $table->foreign('intencion_compra_id')->references('id')->on('intenciones_compra')->onDelete('cascade');
-
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
             $table->unsignedBigInteger('documento_id');
             $table->foreign('documento_id')->references('id')->on('documents')->onDelete('cascade');
 
+            $table->unsignedBigInteger('pago_id');
+            $table->foreign('pago_id')->references('id')->on('pagos')->onDelete('cascade');
+
+            $table->decimal('precio', 10, 2);
+            $table->enum('estado', ['pendiente', 'completada', 'cancelada'])->default('pendiente');
+
             $table->softDeletes();
             $table->timestamps();
+
+            $table->index(['user_id', 'documento_id', 'estado']);
         });
     }
 
@@ -33,6 +37,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('compras');
+        Schema::dropIfExists('intenciones_compras');
     }
 };

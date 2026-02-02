@@ -2,25 +2,24 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Accesos_documento extends Model
+class Accesos_documento extends BaseModel
 {
     use SoftDeletes;
 
     protected $table = 'accesos_documentos';
 
     protected $fillable = [
-        'usuario_id',
+        'user_id',
         'documento_id',
         'compra_id',
         'estado',
     ];
 
-    public function usuario()
+    public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function documento()
@@ -31,5 +30,10 @@ class Accesos_documento extends Model
     public function compra()
     {
         return $this->belongsTo(Compra::class, 'compra_id');
+    }
+
+    public function intenciones_compra()
+    {
+        return $this->belongsTo(Intenciones_compra::class, 'intenciones_compra_id');
     }
 }

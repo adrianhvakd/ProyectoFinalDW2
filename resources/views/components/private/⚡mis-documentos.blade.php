@@ -3,6 +3,8 @@
 use Livewire\Component;
 use Livewire\Attributes\Computed;
 use App\Models\Accesos_documento;
+use App\Models\Document;
+use Illuminate\Support\Facades\URL;
 
 new class extends Component {
     public $search = null;
@@ -12,9 +14,9 @@ new class extends Component {
     public function documentos()
     {
         return Accesos_documento::query()
-            ->where('usuario_id', auth()->id())
+            ->where('user_id', auth()->id())
             ->where('estado', 'activo')
-            ->whereHas('compra.pago', function ($q) {
+            ->whereHas('compra.intencion_compra.pago', function ($q) {
                 $q->where('estado', 'aprobado');
             })
             ->whereHas('documento', function ($q) {
@@ -38,7 +40,7 @@ new class extends Component {
     public function categorias()
     {
         return Accesos_documento::query()
-            ->where('usuario_id', auth()->id())
+            ->where('user_id', auth()->id())
             ->where('estado', 'activo')
             ->whereHas('documento.category')
             ->with('documento.category')
@@ -51,11 +53,25 @@ new class extends Component {
     {
         $this->reset(['search', 'category']);
     }
+
+    public function getDocumentUrl(int $documentId)
+    {
+        $document = Document::findOrFail($documentId);
+
+        abort_unless(auth()->user()->accesos_documentos()->where('documento_id', $document->id)->where('estado', 'activo')->exists(), 403, 'No tienes acceso a este documento');
+
+        return URL::temporarySignedRoute(
+            'documentos.ver',
+            now()->addMinutes(30),
+            ['document' => $document->id],
+        );
+    }
 };
 ?>
 
 <div class="px-6 py-2 h-full">
     <h3 class="text-3xl font-bold mb-5">Mis Documentos</h3>
+
     <div class="flex items-center gap-4 mb-4">
         <label class="input w-full">
             <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -81,7 +97,7 @@ new class extends Component {
         </button>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
         @forelse ($this->documentos as $acceso)
             <div class="card bg-base-200 shadow-lg hover:shadow-xl transition-all duration-300 w-xs">
                 <div class="card-body gap-3">
@@ -111,7 +127,11 @@ new class extends Component {
                     </div>
 
                     <div class="card-actions justify-end mt-2">
-                        <a href="#" class="btn btn-sm btn-primary btn-outline">
+                        <a href="{{ $this->getDocumentUrl($acceso->documento->id) }}" target="_blank"
+                            class="btn btn-sm btn-primary btn-outline gap-2">
+                            <span class="material-icons-outlined text-base">
+                                visibility
+                            </span>
                             Ver documento
                         </a>
                     </div>

@@ -2,9 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
-class Document extends Model
+class Document extends BaseModel
 {
     protected $table = 'documents';
 
@@ -15,8 +13,16 @@ class Document extends Model
         'description',
         'file_path',
         'active',
+        'category_id', // Agrega este si no lo tenías
     ];
 
+    // Asegura que Laravel use 'id' como route key
+    public function getRouteKeyName()
+    {
+        return 'id';
+    }
+
+    // Relaciones
     public function category()
     {
         return $this->belongsTo(Category::class, 'category_id');
@@ -30,5 +36,25 @@ class Document extends Model
     public function calificaciones_documentos()
     {
         return $this->hasMany(Calificaciones_documento::class, 'documento_id');
+    }
+
+    public function accesos_documentos()
+    {
+        return $this->hasMany(Accesos_documento::class, 'documento_id');
+    }
+
+    public function compras()
+    {
+        return $this->hasMany(Compra::class, 'documento_id');
+    }
+
+    public function usuariosConAcceso()
+    {
+        return $this->belongsToMany(
+            User::class,
+            'accesos_documentos',
+            'documento_id',
+            'user_id'
+        )->wherePivot('estado', 'activo');
     }
 }

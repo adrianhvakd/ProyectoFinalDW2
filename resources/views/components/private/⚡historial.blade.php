@@ -2,6 +2,7 @@
 
 use Livewire\Component;
 use Livewire\Attributes\Computed;
+use App\Models\Pago;
 use App\Models\User;
 
 new class extends Component {
@@ -16,7 +17,7 @@ new class extends Component {
     #[Computed]
     public function pagos()
     {
-        return User::find($this->id)->compras()->paginate(6);
+        return User::find($this->id)->pagos()->paginate(6);
     }
 };
 ?>
@@ -26,29 +27,26 @@ new class extends Component {
     <h2 class="text-3xl font-bold mb-5">Historial de Pagos</h2>
 
     <div class="space-y-4">
-        @forelse ($this->pagos as $compra)
+        @forelse ($this->pagos as $pago)
             <div tabindex="0"
-                class="collapse collapse-arrow bg-base-100 border border-base-300 shadow-md hover:shadow-xl transition-all duration-300">
+                class="collapse collapse-arrow bg-base-200 border border-base-300 shadow-md hover:shadow-xl transition-all duration-300">
 
                 <div class="collapse-title flex items-center justify-between">
                     <h3 class="font-semibold text-lg">
-                        {{ $compra->documento->name }}
+                        {{ $pago->created_at->format('d/m/Y H:i:s') }}
                     </h3>
-                    <span class="text-base-content/50">
-                        {{ $compra->documento->category->name }}
-                    </span>
-                    @if ($compra->pago->estado == 'aprobado')
+                    @if ($pago->estado == 'aprobado')
                         <span class="badge badge-success">
-                            {{ $compra->pago->estado }}
+                            {{ $pago->estado }}
                         </span>
                     @else
-                        @if ($compra->pago->estado == 'rechazado')
-                            <span class="badge badge-error">
-                                {{ $compra->pago->estado }}
+                        @if ($pago->estado == 'pendiente')
+                            <span class="badge badge-warning">
+                                {{ $pago->estado }}
                             </span>
                         @else
-                            <span class="badge badge-warning">
-                                {{ $compra->pago->estado }}
+                            <span class="badge badge-error">
+                                {{ $pago->estado }}
                             </span>
                         @endif
                     @endif
@@ -60,17 +58,23 @@ new class extends Component {
 
                         <p>
                             <span class="font-semibold text-base-content/70">Precio</span><br>
-                            {{ $compra->precio }}
+                            {{ $pago->monto_total }} Bs.
                         </p>
 
                         <p>
-                            <span class="font-semibold text-base-content/70">Fecha de compra</span><br>
-                            {{ $compra->created_at->format('d/m/Y') }}
+                            <span class="font-semibold text-base-content/70">Documentos</span><br>
+                            @foreach ($pago->intenciones as $intencion)
+                                @if ($loop->last)
+                                    {{ $intencion->documento->name }}
+                                @else
+                                    {{ $intencion->documento->name }},
+                                @endif
+                            @endforeach
                         </p>
 
                         <p>
                             <span class="font-semibold text-base-content/70">Fecha de verificación</span><br>
-                            {{ $compra->pago?->fecha_verificacion ? $compra->pago->fecha_verificacion->format('d/m/Y') : 'Sin verificar' }}
+                            {{ $pago->fecha_verificacion ? $pago->fecha_verificacion->format('d/m/Y') : 'Sin verificar' }}
                         </p>
 
                     </div>

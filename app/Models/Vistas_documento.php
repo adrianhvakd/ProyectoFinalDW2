@@ -2,22 +2,21 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Vistas_documento extends Model
+class Vistas_documento extends BaseModel
 {
     use SoftDeletes;
 
     protected $table = 'vistas_documentos';
 
     protected $fillable = [
-        'usuario_id',
+        'user_id',
         'documento_id',
         'fecha_vista',
     ];
 
-    public function usuario()
+    public function user()
     {
         return $this->belongsTo(User::class);
     }

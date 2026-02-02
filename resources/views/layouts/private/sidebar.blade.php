@@ -7,6 +7,7 @@
     <title>@yield('title')</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles()
+    <link rel="icon" href="{{ asset('storage/images/logo.png') }}" type="image/x-icon">
 </head>
 
 <body class="bg-base-100">
@@ -44,17 +45,18 @@
                     </span>
                 </label>
 
+                @if (auth()->user()->role == 'user')
+                    @livewire('private.carrito')
+                @endif
                 <!-- Notificaciones Dropdown -->
                 <livewire:private.notifications-dropdown />
-
-
 
                 <!-- User Dropdown -->
                 <div class="dropdown dropdown-end">
                     <label tabindex="0" class="btn btn-ghost btn-circle avatar hover:bg-base-200 transition">
                         <div class="w-10 rounded-full">
-                            <img src="{{ $currentUser->avatar ?? 'https://i.pravatar.cc/150?u=' . $currentUser->id }}"
-                                alt="Avatar" />
+                            <img src="{{ asset('storage/images/profile/' . $currentUser->profile_picture) ?? 'https://i.pravatar.cc/150?u=' . $currentUser->id }}"
+                                alt="Avatar" draggable="false" />
                         </div>
                     </label>
                     <ul tabindex="0"
@@ -93,11 +95,10 @@
                     <!-- Logo arriba del menú -->
                     <div
                         class="flex flex-col items-center justify-center h-28 is-drawer-close:h-16 border-b border-base-content/20">
-                        <a href="{{ route('dashboard') }}">
+                        <a href="{{ route('dashboard') }}" draggable="false">
                             <img src="{{ asset('storage/images/logo.png') }}" alt="Logo"
-                                class="object-contain transition-all duration-300
-                       is-drawer-close:h-8 is-drawer-close:w-8
-                       h-20 w-20">
+                                class="object-contain transition-all duration-300 is-drawer-close:h-8 is-drawer-close:w-8 h-20 w-20"
+                                draggable="false">
                         </a>
                         <p class="text-xs font-bold is-drawer-close:hidden">Norm<span
                                 class="font-bold text-primary">Flow</span></p>
@@ -161,11 +162,12 @@
                     <!-- Logo arriba del menú -->
                     <div
                         class="flex flex-col items-center justify-center h-28 is-drawer-close:h-16 border-b border-base-content/20">
-                        <a href="{{ route('dashboard') }}">
+                        <a href="{{ route('admin-dashboard') }}" draggable="false">
                             <img src="{{ asset('storage/images/logo.png') }}" alt="Logo"
                                 class="object-contain transition-all duration-300
                        is-drawer-close:h-8 is-drawer-close:w-8
-                       h-20 w-20">
+                       h-20 w-20"
+                                draggable="false">
                         </a>
                         <p class="text-xs font-bold is-drawer-close:hidden">Norm<span
                                 class="font-bold text-primary">Flow</span></p>
@@ -216,6 +218,15 @@
                                 data-tip="Documentos">
                                 <span class="material-icons-outlined text-lg">description</span>
                                 <span class="is-drawer-close:hidden font-medium">Documentos</span>
+                            </a>
+                        </li>
+
+                        <li class="w-full">
+                            <a href="{{ route('admin-reportes') }}"
+                                class="is-drawer-close:tooltip is-drawer-close:tooltip-right h-10 w-full flex items-center gap-2 rounded-lg hover:bg-primary/10"
+                                data-tip="Reportes">
+                                <span class="material-icons-outlined text-lg">pie_chart</span>
+                                <span class="is-drawer-close:hidden font-medium">Reportes</span>
                             </a>
                         </li>
 

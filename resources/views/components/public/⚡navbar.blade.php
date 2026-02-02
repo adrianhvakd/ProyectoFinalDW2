@@ -36,7 +36,8 @@ new class extends Component {
             <a href="{{ route('login') }}" class="btn hover:btn-neutral btn-sm btn-outline">Iniciar Sesión</a>
             <a href="#" class="btn btn-sm btn-primary">Registrarse</a>
         @else
-            <a href="{{ route('dashboard') }}" class="btn hover:btn-neutral btn-sm btn-outline">Dashboard</a>
+            <a href="{{ auth()->user()->role == 'admin' ? route('admin-dashboard') : route('dashboard') }}"
+                class="btn hover:btn-neutral btn-sm btn-outline">Dashboard</a>
             <form action="{{ route('logout') }}" method="post">
                 @csrf
                 <button type="submit" class="btn btn-primary btn-sm">Cerrar Sesión</button>

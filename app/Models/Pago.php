@@ -2,36 +2,40 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Pago extends Model
+class Pago extends BaseModel
 {
     use SoftDeletes;
 
     protected $table = 'pagos';
 
     protected $fillable = [
-        'usuario_id',
-        'compra_id',
-        'monto',
-        'estado',
-        'fecha_verificacion',
+        'user_id',
+        'monto_total',
         'comprobante',
+        'estado',
         'verificado_por',
+        'fecha_verificacion',
+        'motivo_rechazo',
     ];
 
     protected $casts = [
         'fecha_verificacion' => 'datetime',
     ];
 
-    public function usuario()
+    public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function compra()
+    public function verificador()
     {
-        return $this->belongsTo(Compra::class);
+        return $this->belongsTo(User::class, 'verificado_por');
+    }
+
+    public function intenciones()
+    {
+        return $this->hasMany(intenciones_compra::class, 'pago_id');
     }
 }
